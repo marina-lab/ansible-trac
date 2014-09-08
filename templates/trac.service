@@ -1,0 +1,21 @@
+[Unit]
+Description=Trac {{ instance_name }}
+After=trac-{{ instance_name }}.service
+Requires=trac-{{ instance_name }}.service
+
+[Service]
+Restart=on-failure
+
+ExecStart=/bin/bash -c \
+    "/bin/docker start -a trac-{{ instance_name }} \
+    || /bin/docker run \
+    --name trac-{{ instance_name }} \
+    -p {{ private_ip }}:8080:8080 \
+    {{ trac_image }}
+
+ExecStop=/bin/bash -c \
+    "/bin/docker stop trac-{{ instance_name }} \
+    && /bin/docker rm trac-{{ instance_name }}"
+
+[Install]
+WantedBy=multi-user.target

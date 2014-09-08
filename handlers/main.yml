@@ -1,0 +1,4 @@
+ - name: "restart trac-{{ instance_name }}"
+   service:
+     name: "trac-{{ instance_name }}"
+     state: restarted

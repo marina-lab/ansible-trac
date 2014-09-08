@@ -5,16 +5,16 @@
 
  - name: "copy trac.ini"
    copy:
-     src: trac.ini
+     src: files/trac.ini
      dest: "/usr/lib/systemd/system/trac-{{ instance_name }}.service"
-   notify: restart trac
+   notify: "restart trac-{{ instance_name }}"
 
  - name: "template trac-{{ instance_name }}.service"
    template:
      src: trac.service
      dest: "/usr/lib/systemd/system/trac-{{ instance_name }}.service"
    register: trac_unit
-   notify: restart trac
+   notify: "restart trac-{{ instance_name }}"
 
  - name: systemctl daemon-reload
    command: /bin/systemctl daemon-reload

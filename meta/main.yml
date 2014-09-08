@@ -15,5 +15,3 @@ dependencies:
      role: postgres,
      postgres_service_name: "trac_{{ instance_name }}_db",
    }
-
-
