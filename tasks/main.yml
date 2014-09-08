@@ -1,0 +1,27 @@
+# Deploy Trac
+ - name: pull trac image
+   docker_pull:
+     repo: "{{ trac_image }}"
+
+ - name: "copy trac.ini"
+   copy:
+     src: trac.ini
+     dest: "/usr/lib/systemd/system/trac-{{ instance_name }}.service"
+   notify: restart trac
+
+ - name: "template trac-{{ instance_name }}.service"
+   template:
+     src: trac.service
+     dest: "/usr/lib/systemd/system/trac-{{ instance_name }}.service"
+   register: trac_unit
+   notify: restart trac
+
+ - name: systemctl daemon-reload
+   command: /bin/systemctl daemon-reload
+   when: trac_unit.changed
+
+ - name: "enable and start trac-{{ instance_name }}.service"
+   service:
+     name: "trac-{{ instance_name }}"
+     enabled: yes
+     state: started

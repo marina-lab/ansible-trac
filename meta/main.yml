@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: "Steffen Prince"
+  description: Start a Dockerized trac
+  license: MIT
+  min_ansible_version: 1.4
+  platforms:
+  - name: Centos
+    versions:
+      - 7
+  categories:
+    - clustering
+dependencies:
+ - {
+     role: postgres,
+     postgres_service_name: "trac_{{ instance_name }}_db",
+   }
+
+
